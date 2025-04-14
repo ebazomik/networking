@@ -1,6 +1,17 @@
 // Use of sockets for study purpose
 // From Network programming in C - Lewis Van Winkle
 // Implementation of Unix-like timer server
+// This implementation follow the TCP flow:
+// 1.getaddrinfo()
+// 2.socket()
+// 3.bind()
+// 4.listen()
+// 5.accept()
+// -> Wait for connction from client
+// 6.recv()
+// -> Process request
+// 7.sent()
+// 8.close()
 
 #include <arpa/inet.h>
 #include <errno.h>
