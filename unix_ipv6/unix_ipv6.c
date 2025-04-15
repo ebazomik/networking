@@ -1,4 +1,5 @@
 // Like unix_ipv4 but in ipv6
+// This version also have double-stack socket
 
 #include <arpa/inet.h>
 #include <errno.h>
@@ -39,6 +40,17 @@ int main() {
     fprintf(stderr, "socket() failed (%d) \n", GETSOCKETERRNO());
     return 1;
   }
+
+  // ***** DOUBLE-STACK STEP *****
+
+  // For use double-stack (both ipv4 and ipv6 socket), set IPV6_ONLY to false with value 0;
+  // ipv4 address -> ::ffff:127.0.0.1 | ipv6 address -> ::1
+  int v6only = 0;
+  if(setsockopt(socket_listen, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only))){
+      fprintf(stderr, "setsockopt() failed (%d) \n", GETSOCKETERRNO());
+      return 1;
+  }
+
 
   // ***** BINDINGS *****
   printf("Binding socket to local address... \n");
